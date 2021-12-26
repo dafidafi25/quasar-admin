@@ -67,6 +67,7 @@
       :mini="miniState"
       class="bg-white"
       :width="280"
+
     >
       <q-scroll-area class="fit">
         <q-list padding class="text-grey-8">

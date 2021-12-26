@@ -1,140 +1,132 @@
 <template>
   <div>
-    <q-card>
+    <q-card class="my-card">
+      <q-card-section class="text-h6"> Chart Suhu </q-card-section>
       <q-card-section class="text-h6">
-        Stacked Area Chart
+        <div class="row">
+          <div class="col-3">tes</div>
+          <div>tes</div>
+          <div>tes</div>
+        </div>
       </q-card-section>
-      <q-card-section>
-        <div ref="areachart" id="areaChart" style="height: 250px;"></div>
+      <q-card-section class="scroll overflow-hidden">
+        <div
+          ref="areachart"
+          id="areaChart"
+          style="height: 400px; width: 100%"
+        ></div>
       </q-card-section>
-      <q-resize-observer @resize="onResize"/>
+      <q-resize-observer />
     </q-card>
   </div>
 </template>
 
 <script>
+import { useStore } from "vuex";
 export default {
   name: "AreaChart",
   data() {
+    let $store = useStore;
     return {
       model: false,
+      $store,
       options: {
         tooltip: {
-          trigger: 'axis',
+          trigger: "axis",
           axisPointer: {
-            type: 'cross',
+            type: "cross",
             label: {
-              backgroundColor: '#6a7985'
-            }
-          }
-        },
-        legend: {
-          data: ['Email marketing', 'Affiliate advertising', 'Video advertising', 'Direct access', 'Search engine'],
-          bottom: 0,
+              backgroundColor: "#6a7985",
+            },
+          },
         },
         grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '10%',
-          top:'5%',
-          containLabel: true
+          left: "3%",
+          right: "4%",
+          bottom: "10%",
+          top: "5%",
+          containLabel: true,
         },
         xAxis: [
           {
-            type: 'category',
+            type: "category",
             boundaryGap: false,
-            data: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-          }
+            data: [
+              "Senin",
+              "Selasa",
+              "Rabu",
+              "Kamis",
+              "Jumat",
+              "Sabtu",
+              "Minggu",
+            ],
+          },
         ],
         yAxis: [
           {
-            type: 'value'
-          }
+            type: "value",
+          },
         ],
         series: [
           {
-            name: 'Email marketing',
-            type: 'line',
-            stack: 'Total',
+            name: "Email marketing",
+            type: "line",
+            stack: "Total",
             areaStyle: {},
             emphasis: {
-              focus: 'series'
+              focus: "series",
             },
-            data: [120, 132, 101, 134, 90, 230, 210]
+            data: [25, 26, 37, 37.8, 22, 30, 32.5],
           },
-          {
-            name: 'Affiliate Advertising',
-            type: 'line',
-            stack: 'Total',
-            areaStyle: {},
-            emphasis: {
-              focus: 'series'
-            },
-            data: [220, 182, 191, 234, 290, 330, 310]
-          },
-          {
-            name: 'Video ads',
-            type: 'line',
-            stack: 'Total',
-            areaStyle: {},
-            emphasis: {
-              focus: 'series'
-            },
-            data: [150, 232, 201, 154, 190, 330, 410]
-          },
-          {
-            name: 'Direct access',
-            type: 'line',
-            stack: 'Total',
-            areaStyle: {},
-            emphasis: {
-              focus: 'series'
-            },
-            data: [320, 332, 301, 334, 390, 330, 320]
-          },
-          {
-            name: 'Search Engine',
-            type: 'line',
-            stack: 'Total',
-            label: {
-              show: true,
-              position: 'top'
-            },
-            areaStyle: {},
-            emphasis: {
-              focus: 'series'
-            },
-            data: [820, 932, 901, 934, 1290, 1330, 1320]
-          }
-        ]
+        ],
       },
-      area_chart: null
-    }
+      area_chart: null,
+    };
   },
   mounted() {
-    this.init();
+    this.$store
+      .dispatch("GET_TEMPERATURE_SENSOR", {
+        pagination: 1,
+        total_data: 25,
+        filterSensor: "all",
+        wemos_id: 1,
+      })
+      .then((res) => {
+        console.log(res);
+        this.init();
+      })
+      .catch((err) => console.log(err));
+
+    setTimeout(() => {
+      this.options.series[0].data[6] = 1;
+    }, 3000);
   },
   watch: {
-    '$q.dark.isActive': function () {
+    "$q.dark.isActive": function () {
       this.init();
-    }
+    },
   },
   methods: {
     init() {
-      let areaChart = document.getElementById('areaChart');
+      let areaChart = document.getElementById("areaChart");
       echarts.dispose(areaChart);
-      let theme = this.model ? 'dark' : 'light';
+      let theme = this.model ? "dark" : "light";
       this.area_chart = echarts.init(areaChart, theme);
-      this.area_chart.setOption(this.options)
+      this.area_chart.setOption(this.options);
     },
     onResize() {
       if (this.area_chart) {
         this.area_chart.resize();
       }
-    }
-  }
-}
+    },
+    generateDate() {},
+  },
+};
 </script>
 
-<style scoped>
+<style lang="sass" scoped>
+.my-card
+  width: 100%
+  max-width: 1920px
+  min-width: 1300px
 </style>
