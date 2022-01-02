@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import Kelembaban from "src/components/charts/kelembaban.vue";
-import Suhu from "src/components/charts/suhu.vue";
-import Listrik from "src/components/charts/listrik.vue";
+import Kelembaban from "./component/kelembaban.vue";
+import Suhu from "./component/suhu.vue";
+import Listrik from "./component/listrik.vue";
 
 export default {
   name: "Charts",

@@ -11,9 +11,8 @@ import { defineComponent, defineAsyncComponent } from "vue";
 export default defineComponent({
   name: "PageIndex",
   components: {
-    nodemcu1: defineAsyncComponent(() => import("components/tables/node1")),
-    nodemcu2: defineAsyncComponent(() => import("components/tables/node2")),
-    TabSocial: defineAsyncComponent(() => import("components/tabs/TabSocial")),
+    nodemcu1: defineAsyncComponent(() => import("./component/node1.vue")),
+    nodemcu2: defineAsyncComponent(() => import("./component/node2.vue")),
   },
   setup() {
     return {
