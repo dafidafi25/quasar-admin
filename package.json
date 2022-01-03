@@ -33,7 +33,8 @@
     "@quasar/app": "^3.0.0",
     "@quasar/quasar-app-extension-qcalendar": "^4.0.0-beta.2",
     "@vue/cli-plugin-pwa": "~4.5.0",
-    "quasar-app-extension-qhierarchy": "^1.0.0-alpha.1"
+    "quasar-app-extension-qhierarchy": "^1.0.0-alpha.1",
+    "workbox-webpack-plugin": "^6.4.2"
   },
   "browserslist": [
     "last 10 Chrome versions",
