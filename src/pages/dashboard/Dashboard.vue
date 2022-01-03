@@ -43,8 +43,5 @@ export default {
       );
     },
   },
-  mounted() {
-    document.addEventListener("deviceready", this.OneSignalInit(), false);
-  },
 };
 </script>
