@@ -1,96 +1,91 @@
 <template>
-  <q-card class="my-card">
-    <q-card-section>
-      <div class="text-h6 text-grey-8">Basic</div>
-    </q-card-section>
-    <q-card-section class="q-pa-none">
-      <q-table
-        title="Treats"
-        :rows="data"
-        :columns="columns"
-        row-key="name"
-        :filter="filter"
-      >
-        <template v-slot:top-right>
-          <q-input
-            v-if="show_filter"
-            filled
-            borderless
-            dense
-            debounce="300"
-            v-model="filter"
-            placeholder="Search"
-          >
-            <template v-slot:append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
-          <q-btn
-            class="q-ml-sm"
-            icon="filter_list"
-            @click="show_filter = !show_filter"
-            flat
-          />
-        </template>
-      </q-table>
-    </q-card-section>
-  </q-card>
+  <div class="q-pa-md">
+    <div class="text-h4 q-mb-lg">Tabel Anomali</div>
+    <q-scroll-area style="height: 1000px; min-width: 1000px">
+      <q-markup-table>
+        <thead>
+          <tr>
+            <th class="text-center">Tegangan</th>
+            <th class="text-right">Suhu</th>
+            <th class="text-right">Kelembaban</th>
+            <th class="text-right">Status Tegangan</th>
+            <th class="text-right">Status Suhu</th>
+            <th class="text-right">Status Kelembaban</th>
+            <th class="text-right">Anomali</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr v-for="(item, index) in items" :key="index">
+            <td class="text-center">{{ item.daya }}</td>
+            <td class="text-right">{{ item.suhu }}</td>
+            <td class="text-right">{{ item.kelembapan }}</td>
+            <td class="text-right">{{ item.status_daya }}</td>
+            <td class="text-right">{{ item.status_suhu }}</td>
+            <td class="text-right">{{ item.status_kelembapan }}</td>
+            <td class="text-right">
+              {{
+                item.ack_status == 1
+                  ? "Aman"
+                  : item.ack_status == 0
+                  ? "Terdapat Anomali"
+                  : item.ack_status == 2
+                  ? "Sudah diketahui"
+                  : "Tidak ada data"
+              }}
+            </td>
+          </tr>
+        </tbody>
+      </q-markup-table>
+    </q-scroll-area>
+  </div>
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
-import { computed } from "vue";
 import { useStore } from "vuex";
 
-const data = [
-  {
-    name: "27,5°",
-    calories: "67%",
-    fat: "Tidak Ada Asap",
-    carbs: "tidak Terdeteksi Air",
-    protein: "100 Watt",
-    sodium: "20-20-2021",
-    calcium: "14%",
-    iron: "1%",
-  },
-];
-const columns = [
-  {
-    name: "name",
-    required: true,
-    label: "Suhu",
-    align: "center",
-    field: (row) => row.name,
-    format: (val) => `${val}`,
-    sortable: true,
-  },
-  { name: "calories", align: "center", label: "Kelembaban", field: "calories" },
-  { name: "fat", label: "Asap", field: "fat" },
-  { name: "carbs", label: "Air", field: "carbs" },
-  { name: "protein", label: "Daya", field: "protein" },
-  { name: "sodium", label: "Tanggal", field: "sodium" },
-];
-
-export default defineComponent({
-  name: "TableBasic",
-  setup() {
-    const show_filter = ref(false);
+export default {
+  data() {
     const $store = useStore();
-
     return {
-      filter: ref(""),
-      show_filter,
-      data,
-      columns,
       $store,
+      items: [],
+      valid: false,
     };
   },
-});
+  mounted() {
+    console.log("tes");
+    this.updateData();
+  },
+  methods: {
+    acknowledge(id, ack) {
+      if (ack == 0) {
+        this.$store
+          .dispatch("ACK_SENSOR", {
+            id_sensor: id,
+            ack_value: 2,
+          })
+          .then(() => this.updateData())
+          .catch((err) => console.log(err));
+      } else {
+        alert("Ack Sudah diketahui");
+      }
+    },
+    updateData() {
+      this.$store
+        .dispatch("GET_ACK_SENSOR", {
+          pagination: 0,
+          total_data: 50,
+          start_date: "2021-12-24",
+          end_date: "2025-12-27",
+          filterACK: "aa",
+        })
+        .then((res) => {
+          this.valid = true;
+          this.items = res.data;
+        })
+        .catch((err) => console.log(err));
+    },
+  },
+};
 </script>
-
-<style lang="sass" scoped>
-.my-card
-  width: 100%
-  max-width: 1920px
-  min-width: 1300px
-</style>

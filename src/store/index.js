@@ -1,27 +1,49 @@
 import { store } from "quasar/wrappers";
 import { createStore } from "vuex";
 import axios from "axios";
+import state from "./module-example/state";
 
-let api = "http://localhost:4000/api";
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, onValue } from "firebase/database";
 
-// import example from './module-example'
+var nodeMCU1, nodeMCU2, nodeMCU3;
 
-/*
- * If not building with SSR mode, you can
- * directly export the Store instantiation;
- *
- * The function below can be async too; either use
- * async/await or return a Promise which resolves
- * with the Store instance.
- */
+let api = "https://samantha25.ngrok.io/api";
 
 export default store(function (/* { ssrContext } */) {
   const Store = createStore({
     modules: {
-      // example
+      state,
     },
+    state: {},
     actions: {
-      GET_TEMPERATURE_SENSOR: (
+      GET_TEMPERATURE_SENSOR: ({}, { pagination, total_data, wemos_id }) => {
+        return new Promise((resolve, reject) => {
+          axios
+            .post(api + "/requestDataSensor", {
+              pagination: pagination,
+              total_data: total_data,
+              filterSensor: "suhu",
+              wemos_id: wemos_id,
+            })
+            .then((res) => resolve(res))
+            .catch((err) => reject(err));
+        });
+      },
+      GET_VOLT_SENSOR: ({}, { pagination, total_data, wemos_id }) => {
+        return new Promise((resolve, reject) => {
+          axios
+            .post(api + "/requestDataSensor", {
+              pagination: pagination,
+              total_data: total_data,
+              filterSensor: "daya",
+              wemos_id: wemos_id,
+            })
+            .then((res) => resolve(res))
+            .catch((err) => reject(err));
+        });
+      },
+      GET_HUMMID_SENSOR: (
         {},
         { pagination, total_data, filterSensor, wemos_id }
       ) => {
@@ -30,8 +52,36 @@ export default store(function (/* { ssrContext } */) {
             .post(api + "/requestDataSensor", {
               pagination: pagination,
               total_data: total_data,
-              filterSensor: filterSensor,
+              filterSensor: "kelembapan",
               wemos_id: wemos_id,
+            })
+            .then((res) => resolve(res))
+            .catch((err) => reject(err));
+        });
+      },
+      GET_ACK_SENSOR: (
+        {},
+        { pagination, total_data, start_date, end_date, filterACK }
+      ) => {
+        return new Promise((resolve, reject) => {
+          axios
+            .post(api + "/requestACKSensor", {
+              pagination: pagination,
+              total_data: total_data,
+              start_date: start_date,
+              end_date: end_date,
+              filterACK: filterACK,
+            })
+            .then((res) => resolve(res))
+            .catch((err) => reject(err));
+        });
+      },
+      ACK_SENSOR: ({}, { id_sensor, ack_value }) => {
+        return new Promise((resolve, reject) => {
+          axios
+            .post(api + "/updateACKSensorByID", {
+              id_sensor: id_sensor,
+              ack_value: ack_value,
             })
             .then((res) => resolve(res))
             .catch((err) => reject(err));

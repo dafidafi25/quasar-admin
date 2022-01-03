@@ -11,21 +11,23 @@
           aria-label="Menu"
         />
         <q-toolbar-title>
-          Server Room Monitoring - Kelvin - NRP
+          Server Room Monitoring - Kelvin - 3120640012
         </q-toolbar-title>
-        <q-space/>
+        <q-space />
         <div class="q-gutter-sm row items-center no-wrap">
           <q-btn round dense flat color="white" icon="notifications">
-            <q-badge color="red" text-color="white" floating>
-              5
-            </q-badge>
-            <q-menu
-            >
+            <q-badge color="red" text-color="white" floating> 5 </q-badge>
+            <q-menu>
               <q-list style="min-width: 100px">
                 <messages></messages>
                 <q-card class="text-center no-shadow no-border">
-                  <q-btn label="View All" style="max-width: 120px !important;" flat dense
-                         class="text-indigo-8"></q-btn>
+                  <q-btn
+                    label="View All"
+                    style="max-width: 120px !important"
+                    flat
+                    dense
+                    class="text-indigo-8"
+                  ></q-btn>
                 </q-card>
               </q-list>
             </q-menu>
@@ -43,7 +45,7 @@
       <q-list>
         <q-item to="/" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
-            <q-icon name="dashboard"/>
+            <q-icon name="dashboard" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Dashboard</q-item-label>
@@ -51,7 +53,7 @@
         </q-item>
         <q-item to="/Charts" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
-            <q-icon name="insert_chart"/>
+            <q-icon name="insert_chart" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Tampilan Grafik</q-item-label>
@@ -59,13 +61,12 @@
         </q-item>
         <q-item to="/Tables" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
-            <q-icon name="table_chart"/>
+            <q-icon name="table_chart" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Tampilan Table</q-item-label>
           </q-item-section>
         </q-item>
-
       </q-list>
     </q-drawer>
 
@@ -76,26 +77,26 @@
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink.vue'
+import EssentialLink from "components/EssentialLink.vue";
 
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
-  name: 'MainLayout',
+  name: "MainLayout",
 
   components: {
-    EssentialLink
+    EssentialLink,
   },
 
-  setup () {
-    const leftDrawerOpen = ref(false)
+  setup() {
+    const leftDrawerOpen = ref(false);
 
     return {
       leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
-  }
-})
+      toggleLeftDrawer() {
+        leftDrawerOpen.value = !leftDrawerOpen.value;
+      },
+    };
+  },
+});
 </script>

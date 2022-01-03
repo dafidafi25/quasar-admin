@@ -1,6 +1,6 @@
 <template>
   <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-    <q-card class="text-grey-8">
+    <q-card class="text-grey-8" style="width">
       <acktable />
     </q-card>
   </div>

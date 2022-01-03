@@ -1,80 +1,141 @@
 <template>
   <div class="q-pa-md">
-    <div class="text-h3">Tabel Anomali</div>
-    <q-markup-table>
-      <thead>
-        <tr>
-          <th class="text-center">Tegangan</th>
-          <th class="text-right">Suhu</th>
-          <th class="text-right">Kelembaban</th>
-          <th class="text-right">Status Tegangan</th>
-          <th class="text-right">Status Suhu</th>
-          <th class="text-right">Status Kelembaban</th>
-          <th class="text-right">Anomali</th>
-          <th class="text-center">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, index) in items" :key="index">
-          <td class="text-center">{{ item.volt }}</td>
-          <td class="text-right">{{ item.temp }}</td>
-          <td class="text-right">{{ item.humidity }}</td>
-          <td class="text-right">{{ item.volt_status }}</td>
-          <td class="text-right">{{ item.temp_status }}</td>
-          <td class="text-right">{{ item.humidity_status }}</td>
-          <td class="text-right">
-            {{
-              item.anomaly == 1
-                ? "Aman"
-                : item.anomaly == 2
-                ? "Terdapat Anomali"
-                : "tidak ada anomali"
-            }}
-          </td>
-          <td class="text-center">
-            <q-btn color="red">ACK </q-btn>
-          </td>
-        </tr>
-      </tbody>
-    </q-markup-table>
+    <div class="text-h4 q-mb-lg">Tabel Anomali</div>
+    <q-scroll-area style="height: 1000px; min-width: 1000px">
+      <q-markup-table>
+        <thead>
+          <tr>
+            <th class="text-center">Tegangan</th>
+            <th class="text-right">Suhu</th>
+            <th class="text-right">Kelembaban</th>
+            <th class="text-right">Status Tegangan</th>
+            <th class="text-right">Status Suhu</th>
+            <th class="text-right">Status Kelembaban</th>
+            <th class="text-right">Anomali</th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr v-for="(item, index) in items" :key="index">
+            <td class="text-center">{{ item.daya }}</td>
+            <td class="text-right">{{ item.suhu }}</td>
+            <td class="text-right">{{ item.kelembapan }}</td>
+            <td class="text-right">
+              {{
+                item.status_daya == 1
+                  ? "Tegangan Drop"
+                  : item.status_daya == 2
+                  ? "Tegangan Melemah"
+                  : item.status_daya == 3
+                  ? "Tegangan Normal"
+                  : item.status_daya == 4
+                  ? "Tegangan Meningkat"
+                  : item.status_daya == 5
+                  ? "Tegangan Terlalu Tinggi"
+                  : null
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                item.status_suhu == 1
+                  ? "Suhu Terlalu Rendah"
+                  : item.status_suhu == 2
+                  ? "Suhu Rendah Kurang dari 18 (°C)"
+                  : item.status_suhu == 3
+                  ? "Suhu Normal"
+                  : item.status_suhu == 4
+                  ? "Suhu Tinggi Lebih dari 27 (°C)"
+                  : item.status_suhu == 5
+                  ? "Suhu Terlalu Tinggi"
+                  : null
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                item.status_kelembapan == 1
+                  ? "Kelembaban Terlalu Rendah"
+                  : item.status_kelembapan == 2
+                  ? "Kelembaban Rendah Kurang dari 18 (°C)"
+                  : item.status_kelembapan == 3
+                  ? "Kelembaban Normal"
+                  : item.status_kelembapan == 4
+                  ? "Kelembaban Tinggi Lebih dari 27 (°C)"
+                  : item.status_kelembapan == 5
+                  ? "Kelembaban Terlalu Tinggi"
+                  : null
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                item.ack_status == 1
+                  ? "Aman"
+                  : item.ack_status == 0
+                  ? "Terdapat Anomali"
+                  : item.ack_status == 2
+                  ? "Sudah diketahui"
+                  : "Tidak ada data"
+              }}
+            </td>
+            <td class="text-center">
+              <q-btn
+                color="red"
+                @click="acknowledge(item.id_sensor, item.ack_status)"
+                >ACK
+              </q-btn>
+            </td>
+          </tr>
+        </tbody>
+      </q-markup-table>
+    </q-scroll-area>
   </div>
 </template>
 
 <script>
+import { useStore } from "vuex";
+
 export default {
   data() {
+    const $store = useStore();
     return {
-      items: [
-        {
-          volt: 25,
-          temp: 40,
-          humidity: 40,
-          volt_status: 3,
-          temp_status: 3,
-          humidity_status: 3,
-          anomaly: 1,
-        },
-
-        {
-          volt: 25,
-          temp: 40,
-          humidity: 40,
-          volt_status: 3,
-          temp_status: 3,
-          humidity_status: 3,
-          anomaly: 1,
-        },
-        {
-          volt: 25,
-          temp: 40,
-          humidity: 40,
-          volt_status: 3,
-          temp_status: 3,
-          humidity_status: 3,
-          anomaly: 1,
-        },
-      ],
+      $store,
+      items: [],
+      valid: false,
     };
+  },
+  mounted() {
+    console.log("tes");
+    this.updateData();
+  },
+  methods: {
+    acknowledge(id, ack) {
+      if (ack == 0) {
+        this.$store
+          .dispatch("ACK_SENSOR", {
+            id_sensor: id,
+            ack_value: 2,
+          })
+          .then(() => this.updateData())
+          .catch((err) => console.log(err));
+      } else {
+        alert("Ack Sudah diketahui");
+      }
+    },
+    updateData() {
+      this.$store
+        .dispatch("GET_ACK_SENSOR", {
+          pagination: 0,
+          total_data: 50,
+          start_date: "2021-12-24",
+          end_date: "2025-12-27",
+          filterACK: "aa",
+        })
+        .then((res) => {
+          this.valid = true;
+          this.items = res.data;
+        })
+        .catch((err) => console.log(err));
+    },
   },
 };
 </script>

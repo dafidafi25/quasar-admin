@@ -5,7 +5,7 @@
       <q-card-section class="text-h6">
         <div class="row">
           <div class="col-2 q-mr-md">
-            <q-input filled v-model="firstDate" mask="date" :rules="['date']">
+            <!-- <q-input filled v-model="firstDate" mask="date" :rules="['date']">
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
                   <q-popup-proxy
@@ -27,10 +27,10 @@
                   </q-popup-proxy>
                 </q-icon>
               </template>
-            </q-input>
+            </q-input> -->
           </div>
           <div class="col-2">
-            <q-input filled v-model="firstDate" mask="date" :rules="['date']">
+            <!-- <q-input filled v-model="firstDate" mask="date" :rules="['date']">
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
                   <q-popup-proxy
@@ -52,7 +52,7 @@
                   </q-popup-proxy>
                 </q-icon>
               </template>
-            </q-input>
+            </q-input> -->
           </div>
         </div>
       </q-card-section>
@@ -101,13 +101,27 @@ export default {
             type: "category",
             boundaryGap: false,
             data: [
-              "Senin",
-              "Selasa",
-              "Rabu",
-              "Kamis",
-              "Jumat",
-              "Sabtu",
-              "Minggu",
+              "2021/12/14",
+              "2021/12/15",
+              "2021/12/16",
+              "2021/12/17",
+              "2021/12/18",
+              "2021/12/19",
+              "2021/12/20",
+              "2021/12/21",
+              "2021/12/22",
+              "2021/12/23",
+              "2021/12/24",
+              "2021/12/25",
+              "2021/12/26",
+              "2021/12/27",
+              "2021/12/28",
+              "2021/12/29",
+              "2021/12/30",
+              "2021/12/31",
+              "2022/01/01",
+              "2022/01/02",
+              "2022/01/03",
             ],
           },
         ],
@@ -134,18 +148,22 @@ export default {
   },
   mounted() {
     this.$store
-      .dispatch("GET_TEMPERATURE_SENSOR", {
-        pagination: 1,
+      .dispatch("GET_HUMMID_SENSOR", {
+        pagination: 0,
         total_data: 25,
-        filterSensor: "all",
-        wemos_id: 1,
+        wemos_id: null,
       })
       .then((res) => {
-        console.log(res);
+        const array = res.data;
+        let arrayChart = [];
+
+        array.forEach((item) => {
+          arrayChart.push(item.kelembapan);
+        });
+        this.options.series[0].data = arrayChart;
+        this.init();
       })
       .catch((err) => console.log(err));
-
-    this.init();
   },
   watch: {
     "$q.dark.isActive": function () {
