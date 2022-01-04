@@ -70,14 +70,7 @@
               {{ item.wemos_id }}
             </td>
             <td class="text-right">
-              {{
-                item.created_at.substring(0, item.created_at.indexOf("T")) +
-                " " +
-                item.created_at.substring(
-                  item.created_at.indexOf("T") + 1,
-                  item.created_at.indexOf("T") + 1 + 8
-                )
-              }}
+              {{ item.created_at }}
             </td>
           </tr>
         </tbody>
