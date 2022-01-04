@@ -10,7 +10,7 @@
             <div class="text-h6 text-center q-mr-md">Suhu(°C)</div>
             <q-knob
               readonly
-              v-model="nodeMCU1.suhu"
+              v-model="nodeMCU3.suhu"
               show-value
               size="110px"
               :thickness="0.22"
@@ -23,7 +23,7 @@
             <div class="text-h6 text-center q-mr-md">Tegangan(V)</div>
             <q-knob
               readonly
-              v-model="nodeMCU1.voltase"
+              v-model="nodeMCU3.voltase"
               show-value
               size="110px"
               max="300"
@@ -37,7 +37,7 @@
             <div class="text-h6 text-center q-mr-md">Kelembaban(%Rh)</div>
             <q-knob
               readonly
-              v-model="nodeMCU1.kelembapan"
+              v-model="nodeMCU3.kelembapan"
               show-value
               size="110px"
               :thickness="0.22"
@@ -101,7 +101,7 @@
             <div class="text-center">
               <q-knob
                 readonly
-                v-model="nodeMCU3.suhu"
+                v-model="nodeMCU1.suhu"
                 show-value
                 size="110px"
                 :thickness="0.22"
@@ -116,7 +116,7 @@
             <div class="text-center">
               <q-knob
                 readonly
-                v-model="nodeMCU3.kelembapan"
+                v-model="nodeMCU1.kelembapan"
                 show-value
                 size="110px"
                 :thickness="0.22"

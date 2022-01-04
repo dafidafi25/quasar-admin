@@ -11,8 +11,8 @@
             <th class="text-right">Status Tegangan</th>
             <th class="text-right">Status Suhu</th>
             <th class="text-right">Status Kelembaban</th>
-            <th class="text-right">Anomali</th>
-            <th class="text-center">Action</th>
+            <th class="text-right">NODE MCU ID</th>
+            <th class="text-center">Waktu</th>
           </tr>
         </thead>
 
@@ -67,22 +67,17 @@
               }}
             </td>
             <td class="text-right">
-              {{
-                item.ack_status == 1
-                  ? "Aman"
-                  : item.ack_status == 0
-                  ? "Terdapat Anomali"
-                  : item.ack_status == 2
-                  ? "Sudah diketahui"
-                  : "Tidak ada data"
-              }}
+              {{ item.wemos_id }}
             </td>
-            <td class="text-center">
-              <q-btn
-                color="red"
-                @click="acknowledge(item.id_sensor, item.ack_status)"
-                >ACK
-              </q-btn>
+            <td class="text-right">
+              {{
+                item.created_at.substring(0, item.created_at.indexOf("T")) +
+                " " +
+                item.created_at.substring(
+                  item.created_at.indexOf("T") + 1,
+                  item.created_at.indexOf("T") + 1 + 8
+                )
+              }}
             </td>
           </tr>
         </tbody>
@@ -123,12 +118,11 @@ export default {
     },
     updateData() {
       this.$store
-        .dispatch("GET_ACK_SENSOR", {
+        .dispatch("GET_SENSOR_DATA", {
           pagination: 0,
           total_data: 50,
           start_date: "2021-12-24",
           end_date: "2025-12-27",
-          filterACK: "aa",
         })
         .then((res) => {
           this.valid = true;
