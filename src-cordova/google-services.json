@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "424911601514",
+    "firebase_url": "https://backendserver1-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "backendserver1",
+    "storage_bucket": "backendserver1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424911601514:android:227fc32436472bdf62ef13",
+        "android_client_info": {
+          "package_name": "com.server.kevin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "424911601514-e5jh3ctghilue4017k7s14mrq6c28ej7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_YeV7yrZZXN7aXYloPWc8TrytVWixuO0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "424911601514-e5jh3ctghilue4017k7s14mrq6c28ej7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

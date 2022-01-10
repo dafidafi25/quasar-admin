@@ -3,11 +3,6 @@ import { createStore } from "vuex";
 import axios from "axios";
 import state from "./module-example/state";
 
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, onValue } from "firebase/database";
-
-var nodeMCU1, nodeMCU2, nodeMCU3;
-
 let api = "https://samantha25.ngrok.io/api";
 
 export default store(function (/* { ssrContext } */) {
@@ -82,6 +77,19 @@ export default store(function (/* { ssrContext } */) {
             .post(api + "/updateACKSensorByID", {
               id_sensor: id_sensor,
               ack_value: ack_value,
+            })
+            .then((res) => resolve(res))
+            .catch((err) => reject(err));
+        });
+      },
+      GET_SENSOR_DATA: ({}, { pagination, total_data, wemos_id }) => {
+        return new Promise((resolve, reject) => {
+          axios
+            .post(api + "/requestDataSensor", {
+              pagination: pagination,
+              total_data: total_data,
+              filterSensor: "all",
+              wemos_id: wemos_id,
             })
             .then((res) => resolve(res))
             .catch((err) => reject(err));
