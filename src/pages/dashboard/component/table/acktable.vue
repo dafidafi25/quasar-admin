@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="text-h4 q-mb-lg">Tabel Anomali</div>
-    <q-scroll-area style="height: 1000px; min-width: 1000px">
+    <q-scroll-area style="height: 804px">
       <q-markup-table>
         <thead>
           <tr>
