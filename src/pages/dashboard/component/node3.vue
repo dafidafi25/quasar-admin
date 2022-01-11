@@ -6,49 +6,39 @@
       </q-card-section>
       <q-card-section>
         <div class="row">
-          <div class="col-4">
+          <div class="col-6">
             <div class="text-h6 text-center q-mr-md">Suhu(°C)</div>
-            <q-knob
-              readonly
-              v-model="nodeMCU1.suhu"
-              show-value
-              size="110px"
-              :thickness="0.22"
-              color="primary"
-              track-color="info"
-              class="q-ma-md"
-            ></q-knob>
+            <div class="text-center">
+              <q-knob
+                readonly
+                v-model="nodeMCU1.suhu"
+                show-value
+                size="110px"
+                :thickness="0.22"
+                color="primary"
+                track-color="info"
+                class="q-ma-md"
+              ></q-knob>
+            </div>
           </div>
-          <div class="col-4">
-            <div class="text-h6 text-center q-mr-md">Tegangan(V)</div>
-            <q-knob
-              readonly
-              v-model="nodeMCU1.voltase"
-              show-value
-              size="110px"
-              max="300"
-              :thickness="0.22"
-              color="primary"
-              track-color="info"
-              class="q-ma-md"
-            />
-          </div>
-          <div class="col-4">
-            <div class="text-h6 text-center q-mr-md">Kelembaban(%Rh)</div>
-            <q-knob
-              readonly
-              v-model="nodeMCU1.kelembapan"
-              show-value
-              size="110px"
-              :thickness="0.22"
-              color="primary"
-              track-color="info"
-              class="q-ma-md"
-            />
+          <div class="col-6">
+            <div class="text-h6 text-center q-mr-md">Kelembaban(%RH)</div>
+            <div class="text-center">
+              <q-knob
+                readonly
+                v-model="nodeMCU1.kelembapan"
+                show-value
+                size="110px"
+                :thickness="0.22"
+                color="primary"
+                track-color="info"
+                class="q-ma-md"
+              />
+            </div>
           </div>
         </div>
         <div class="text-center text-subtitle2">
-          Predicted data 10 minute after
+          Last Updated {{ nodeMCU1.date }}
         </div>
       </q-card-section>
       <q-card-section class="justify-start">
@@ -88,7 +78,7 @@
           </div>
         </div>
         <div class="text-center text-subtitle2">
-          Predicted data 10 minute after
+          Last Updated {{ nodeMCU2.date }}
         </div>
       </q-card-section>
       <q-card-section class="justify-start">
@@ -96,39 +86,50 @@
       </q-card-section>
       <q-card-section>
         <div class="row">
-          <div class="col-6">
+          <div class="col-4">
             <div class="text-h6 text-center q-mr-md">Suhu(°C)</div>
-            <div class="text-center">
-              <q-knob
-                readonly
-                v-model="nodeMCU3.suhu"
-                show-value
-                size="110px"
-                :thickness="0.22"
-                color="primary"
-                track-color="info"
-                class="q-ma-md"
-              ></q-knob>
-            </div>
+            <q-knob
+              readonly
+              v-model="nodeMCU3.suhu"
+              show-value
+              size="110px"
+              :thickness="0.22"
+              color="primary"
+              track-color="info"
+              class="q-ma-md"
+            ></q-knob>
           </div>
-          <div class="col-6">
-            <div class="text-h6 text-center q-mr-md">Kelembaban(%RH)</div>
-            <div class="text-center">
-              <q-knob
-                readonly
-                v-model="nodeMCU3.kelembapan"
-                show-value
-                size="110px"
-                :thickness="0.22"
-                color="primary"
-                track-color="info"
-                class="q-ma-md"
-              />
-            </div>
+          <div class="col-4">
+            <div class="text-h6 text-center q-mr-md">Tegangan(V)</div>
+            <q-knob
+              readonly
+              v-model="nodeMCU3.voltase"
+              show-value
+              size="110px"
+              max="300"
+              :thickness="0.22"
+              color="primary"
+              track-color="info"
+              class="q-ma-md"
+            />
+          </div>
+          <div class="col-4">
+            <div class="text-h6 text-center q-mr-md">Kelembaban(%Rh)</div>
+            <q-knob
+              readonly
+              v-model="nodeMCU3.kelembapan"
+              show-value
+              size="110px"
+              :thickness="0.22"
+              color="primary"
+              track-color="info"
+              class="q-ma-md"
+            />
           </div>
         </div>
+
         <div class="text-center text-subtitle2">
-          Predicted data 10 minute after
+          Last Updated {{ nodeMCU3.date }}
         </div>
       </q-card-section>
     </q-card>
@@ -183,7 +184,6 @@ export default {
           temp: data.suhu,
         })
         .then((res) => {
-          this.nodeMCU1.voltase = Math.floor(res.data.volt);
           this.nodeMCU1.kelembapan = Math.floor(res.data.humid);
           this.nodeMCU1.suhu = Math.floor(res.data.temp);
         });
@@ -218,6 +218,7 @@ export default {
           temp: data.suhu,
         })
         .then((res) => {
+          this.nodeMCU3.voltase = Math.floor(res.data.volt);
           this.nodeMCU3.kelembapan = Math.floor(res.data.humid);
           this.nodeMCU3.suhu = Math.floor(res.data.temp);
         });
