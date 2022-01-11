@@ -37,9 +37,7 @@
             </div>
           </div>
         </div>
-        <div class="text-center text-subtitle2">
-          Last Updated {{ nodeMCU1.date }}
-        </div>
+        <div class="text-center text-subtitle2">Predicted for 10 minute</div>
       </q-card-section>
       <q-card-section class="justify-start">
         <div class="text-center text-h4">NODE MCU 2</div>
@@ -77,9 +75,7 @@
             </div>
           </div>
         </div>
-        <div class="text-center text-subtitle2">
-          Last Updated {{ nodeMCU2.date }}
-        </div>
+        <div class="text-center text-subtitle2">Predicted for 10 minute</div>
       </q-card-section>
       <q-card-section class="justify-start">
         <div class="text-center text-h4">NODE MCU 3</div>
@@ -128,9 +124,7 @@
           </div>
         </div>
 
-        <div class="text-center text-subtitle2">
-          Last Updated {{ nodeMCU3.date }}
-        </div>
+        <div class="text-center text-subtitle2">Predicted for 10 minute</div>
       </q-card-section>
     </q-card>
   </div>
